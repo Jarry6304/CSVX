@@ -1,0 +1,29 @@
+# Copy to config.toml and fill in. config.toml is gitignored.
+# Override the password at runtime via the SMI_DB_PASSWORD environment variable
+# (or put it in .env, which dotenvy will load automatically).
+
+[source]
+input_dir  = "./input"
+backup_dir = "./bak"
+error_dir  = "./error"
+
+[database]
+target = "mssql"
+# ADO-style connection string. SQL auth uses User ID/Password.
+# AD auth uses "Integrated Security=SSPI" (requires Kerberos on Linux).
+conn   = "Server=<HOST>,1433;Database=<DB>;User ID=<USER>;Password=<REPLACED_BY_ENV>;TrustServerCertificate=true;"
+# Target table for the half-done DAO. Auto-created if missing.
+# Whitelist characters only: [A-Za-z0-9_]. No real production table name here.
+table  = "<YOUR_DEV_TABLE>"
+
+[database.enabled]
+mssql    = true
+postgres = false
+oracle   = false
+
+[log]
+dir   = "./log"
+level = "info"
+
+[profile]
+dir = "./profiles"

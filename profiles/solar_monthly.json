@@ -1,0 +1,38 @@
+{
+  "name": "solar_monthly",
+  "match": {
+    "filename": "*發電量*.xlsx",
+    "header_contains": ["案件編號", "1日", "31日"],
+    "header_signature": "356bdc2a0ec6",
+    "priority": 10
+  },
+  "encoding": "big5",
+  "format": "xlsx",
+  "sheet": 1,
+  "header_rows": 1,
+  "data_start_row": 3,
+  "skip_blank_id": true,
+  "fill_merged": false,
+  "id_cols": [
+    { "name": "caseid",     "col": 1, "header": "案件編號",       "type": "string" },
+    { "name": "plant_name", "col": 2, "header": "案件名稱(系統)", "type": "string" }
+  ],
+  "unpivot": {
+    "anchor": "1日",
+    "anchor_match": "exact",
+    "day_cols": 31,
+    "validate_calendar_day": true,
+    "var_name": "shift_hour",
+    "value_name": "daily_kwh",
+    "year_month_from": "filename:0..6",
+    "anchor_col_observed": 16
+  },
+  "value_rules": {
+    "type": "decimal",
+    "decimals": 4,
+    "missingValues": ["", "-", "#DIV/0!", "#N/A", "#VALUE!"],
+    "zero_is_valid": true,
+    "min": 0,
+    "max": 1000000
+  }
+}
